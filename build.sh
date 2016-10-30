@@ -229,28 +229,6 @@ chmod a+x ${original_dir}/zip-creator/base/dtbToolCM
 ${original_dir}/zip-creator/base/dtbToolCM -2 -s 2048 -p ${original_dir}/scripts/dtc/ ${original_dir}/arch/${ARCH}/boot/ -o ${original_dir}/zip-creator/base/dt.img
 }
 
-clang_format() {
-if [ -f .clang-format ]
-then
-	if [ $(which clang-format-3.8) ]
-	then
-		echo "  | Fixing any style issue with clang-format"
-		clang-format-3.8 -i $(git diff --name-only | uniq | grep -e "\.c" -e "\.h" -e "\.cpp")
-	elif [ $(which clang-format) ]
-	then
-		echo "  | Using not supported clang-format!"
-		echo "  | Anyway, let's try to fix any style issue with it"
-		clang-format -i $(git diff --name-only | uniq | grep -e "\.c" -e "\.h" -e "\.cpp")
-	else
-		echo "  | Clang Format 3.8 not found"
-		echo "  | Install it using $(sudo apt-get install clang-format-3.8)"
-		sleep 5
-	fi
-else
-	echo "  | No .clang-format found, skipping..."
-fi
-}
-
 # Wrong choice
 wrong_choice() {
 echo "${x} | This option is not available! | Something is wrong! | Check ${color_green}Choice Menu${color_stock}!"; sleep 2
@@ -351,7 +329,6 @@ then
 			8) zip_copy_adb;;
 			q|e) echo "${x} | Ok, Bye!"; break;;
 			u) update_dt;;
-			c) clang_format;;
 			*) wrong_choice;;
 		esac
 	done
