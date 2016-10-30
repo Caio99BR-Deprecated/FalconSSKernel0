@@ -62,13 +62,14 @@ then
 fi
 new_boot_cmdline="${boot_cmdline}${new_booboot_cmdline_1}${new_booboot_cmdline_2}"
 
-# Let's update init.sh
+# Let's update init.sh and recovery
 boot_ramdisk="${working_dir}/boot.img-ramdisk.gz"
 new_boot_ramdisk="${working_dir}/new_boot.img-ramdisk.gz"
 mkdir ${working_dir}/boot.img-ramdisk/
 cd ${working_dir}/boot.img-ramdisk/
 gunzip -c ${boot_ramdisk} | cpio -i
 cp -f ${working_dir}/init.sh ${working_dir}/boot.img-ramdisk/sbin/
+cp -f ${working_dir}/ramdisk-recovery.cpio ${working_dir}/boot.img-ramdisk/sbin/
 
 # Fix Splash LOGO
 if [ -f "${working_dir}/logo.rle" ]
