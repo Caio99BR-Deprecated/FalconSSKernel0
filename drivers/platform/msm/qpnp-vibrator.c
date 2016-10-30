@@ -29,7 +29,7 @@
 #define QPNP_VIB_MIN_LEVEL		12
 
 #define QPNP_VIB_DEFAULT_TIMEOUT	15000
-#define QPNP_VIB_DEFAULT_VTG_LVL	3100 //JimCheng 20140624 change vibrator voltage to 3.1V
+#define QPNP_VIB_DEFAULT_VTG_LVL	3100
 
 #define QPNP_VIB_EN			BIT(7)
 #define QPNP_VIB_VTG_SET_MASK		0x1F
@@ -145,15 +145,6 @@ static int qpnp_vib_set(struct qpnp_vib *vib, int on)
 			return rc;
 		vib->reg_en_ctl = val;
 	} else {
-/* [Arima JimCheng 20140623] Qualcomm patch for vibrator test ++ */
-    val = 0; 
-    val &= ~QPNP_VIB_VTG_SET_MASK; 
-    val |= (vib->vtg_level & QPNP_VIB_VTG_SET_MASK); 
-    rc = qpnp_vib_write_u8(vib, &val, QPNP_VIB_VTG_CTL(vib->base)); 
-    if (rc < 0) 
-      return rc; 
-
-/* [Arima JimCheng 20140623] Qualcomm patch for vibrator test -- */
 		val = vib->reg_en_ctl;
 		val &= ~QPNP_VIB_EN;
 		rc = qpnp_vib_write_u8(vib, &val, QPNP_VIB_EN_CTL(vib->base));
