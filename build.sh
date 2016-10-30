@@ -147,6 +147,7 @@ then
 		cp ${original_dir}/zip-creator/base/unpackbootimg ${zip_out}/
 		cp ${original_dir}/arch/${ARCH}/boot/zImage ${zip_out}/
 		cp ${original_dir}/zip-creator/base/dt.img ${zip_out}/
+		cp ${original_dir}/zip-creator/base/init.sh ${zip_out}/
 
 		# Set device
 		echo "${builder}" >> ${zip_out}/device.prop
