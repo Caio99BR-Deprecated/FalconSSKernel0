@@ -69,6 +69,14 @@ mkdir ${working_dir}/boot.img-ramdisk/
 cd ${working_dir}/boot.img-ramdisk/
 gunzip -c ${boot_ramdisk} | cpio -i
 cp -f ${working_dir}/init.sh ${working_dir}/boot.img-ramdisk/sbin/
+
+# Fix Splash LOGO
+if [ -f "${working_dir}/logo.rle" ]
+then
+	#mv ${working_dir}/boot.img-ramdisk/logo.rle ${working_dir}/boot.img-ramdisk/initlogo.rle
+	ui_print "WOW, you have original logo.rle, but i can't do anything :/"
+fi
+
 find . | cpio -o -H newc | gzip > ${new_boot_ramdisk}
 cd ${working_dir}/
 
