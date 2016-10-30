@@ -62,9 +62,18 @@ then
 fi
 new_boot_cmdline="${boot_cmdline}${new_booboot_cmdline_1}${new_booboot_cmdline_2}"
 
+# Let's update init.sh
+boot_ramdisk="${working_dir}/boot.img-ramdisk.gz"
+new_boot_ramdisk="${working_dir}/new_boot.img-ramdisk.gz"
+mkdir ${working_dir}/boot.img-ramdisk/
+cd ${working_dir}/boot.img-ramdisk/
+gunzip -c ${boot_ramdisk} | cpio -i
+cp -f ${working_dir}/init.sh ${working_dir}/boot.img-ramdisk/sbin/
+find . | cpio -o -H newc | gzip > ${new_boot_ramdisk}
+cd ${working_dir}/
+
 # Set original files
 boot_base=$(cat ${working_dir}/boot.img-base)
-boot_ramdisk="${working_dir}/boot.img-ramdisk.gz"
 
 # Set new files
 new_boot_zImage="${working_dir}/zImage"
@@ -77,7 +86,7 @@ ${working_dir}/mkbootimg \
 --ramdisk_offset 0x02000000 \
 --tags_offset 0x01E00000 \
 --pagesize 2048 \
---ramdisk "${boot_ramdisk}" \
+--ramdisk "${new_boot_ramdisk}" \
 --cmdline "${new_boot_cmdline}" \
 --kernel "${new_boot_zImage}" \
 --dt "${new_boot_dt}" \
